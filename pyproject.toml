@@ -1,0 +1,96 @@
+[project]
+name = "markovtrace"
+version = "0.0.1"
+description = "Counterfactual attribution for LLM outputs. Token, chunk, and section granularity. Anthropic and OpenAI adapters at v1.0. MIT licensed."
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Jesse R. Castro"},
+]
+requires-python = ">=3.11,<3.14"
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Development Status :: 2 - Pre-Alpha",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.6,<1.0",
+    "mypy>=1.10,<2.0",
+    "bandit>=1.7,<2.0",
+    "vulture>=2.10,<3.0",
+    "pydoclint>=0.5,<1.0",
+    "import-linter>=2.0,<3.0",
+    "pre-commit>=3.5,<5.0",
+]
+test = [
+    "pytest>=8.0,<9.0",
+    "pytest-cov>=5.0,<7.0",
+    "mutmut>=2.5,<3.0",
+]
+docs = []
+
+[project.urls]
+Repository = "https://github.com/aedile/markovtrace"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "src/markovtrace/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/markovtrace"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "ANN", "RUF"]
+ignore = []
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unused_ignores = true
+warn_return_any = true
+no_implicit_reexport = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+
+[tool.coverage.run]
+source = ["src/markovtrace"]
+branch = true
+
+[tool.coverage.report]
+fail_under = 80
+exclude_lines = [
+    "pragma: no cover",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+    "if __name__ == .__main__.:",
+    "\\.\\.\\.",
+]
+
+[tool.bandit]
+skips = ["B101"]
+
+[tool.importlinter]
+root_packages = ["markovtrace"]
+
+[tool.vulture]
+paths = ["src/markovtrace"]
+min_confidence = 80
